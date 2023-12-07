@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+    <!--[layout,sitemap] DataBase 버전 (WEB-INF/coreframe/bld/system/sitemap/README) -->
+    <!--<bean id="coreview.layout.dao" class="coreview.layout.dao.XmlDbDao" >
+        <property name="backupFileOnSuccess" value="true">리로드 성공시 backup파일 생성 여부</property>
+        <property name="overwriteFileOnSuccess" value="true">성공시 sitemap.xml,layout.xml에 반영할지</property>
+        <property name="sourceInfo" value="coreframe">file:sitemap.xml, db:사이트아이디</property>
+    </bean>
+    <bean id="coreview.menuDao" class="coreview.menu.dao.XmlDbMenuDao" >
+        <property name="backupFileOnSuccess" value="true">리로드 성공시 backup파일 생성 여부</property>
+        <property name="overwriteFileOnSuccess" value="true">성공시 sitemap.xml,layout.xml에 반영할지</property>
+        <property name="sourceInfo" value="coreframe">file:sitemap.xml, db:사이트아이디</property>
+        <property name="stage" value="real">설정시 sitemap active tag에 설정된 stage와 동일시에만 메뉴 활성화</property>
+    </bean>-->
+
+    <!--[layout,sitemap] File 버전 -->
+    <bean id="coreview.layout.dao" class="coreview.layout.dao.XmlFileDao"/>
+    <bean id="coreview.menuDao" class="coreview.menu.dao.XmlMenuDao"/>
+
+
+    <bean id="coreview.layout.layoutMgr" class="coreview.layout.LayoutManager">
+        <property name="layoutDao" ref="coreview.layout.dao"/>
+    </bean>
+
+    <bean id="coreview.menuMgr" class="coreview.menu.bean.MenuMgrBean">
+        <property name="menuDao" ref="coreview.menuDao"/>
+    </bean>
+
+    <!-- website Management Service -->
+    <bean id="coreview.WebsiteManagementService" class="coreview.WebsiteManagementService">
+        <property name="autoreload" value="true"/>
+        <property name="reloadCheckTimeSec" value="3"/><!--sitemap,layout 변경 체크 -->
+        <property name="serviceManager" ref="coreframe.serviceManager"/>
+        <property name="dependencyServiceIds" value="corelogic.adapterService"/>
+    </bean>
+
+    <bean id="coreview.WebPagePublisher" class="coreview.menu.WebPagePublisher">
+        <property name="serviceManager" ref="coreframe.serviceManager"/>
+    </bean>
+
+
+    <bean id="coreview.urlRouteService" class="coreview.route.impl.RESTfulRouteService">
+        <property name="homeDir" value="${COREFRAME_CONFIG_HOME}/web/url-route"/>
+        <property name="reloadCheckTimeSec" value="5"/>
+        <property name="serviceManager" ref="coreframe.serviceManager"/>
+    </bean>
+
+
+    <bean id="coreview.ElementManagerService" class="coreview.layout.element.impl.ElementManagerServiceImpl">
+        <property name="filepath" value="${COREFRAME_CONFIG_HOME}/web/web-element"/>
+        <property name="reloadCheckTimeSec" value="5"/>
+        <property name="serviceManager" ref="coreframe.serviceManager"/>
+    </bean>
+
+
+    <!-- js-15.jar , less.js, env.rhino.js, Less 서비스를 사용시 활성화-->
+    <!--<bean id="service.less.lessCompileService" class="coreframe.service.less.LessService">
+        <property name="lessFileList">
+            <list>
+            </list>
+        </property>
+        <property name="lessFolderList">
+            <list>
+                <value>/WEB-APP/webponent</value>
+            </list>
+        </property>
+
+        <property name="reloadCheckTimeSec" value="2"/>
+        <property name="lessJsPath" value="/WEB-APP/webponent/thirdParty/less/less-1.3.3.min.js"/>
+        <property name="envJsPath" value="/WEB-INF/coreframe/service/web/env.rhino.js"/>
+        <property name="encoding" value="UTF-8"/>
+        <property name="isCompress" value="false"/>&lt;!&ndash; 공백 및 LF 제거여부 &ndash;&gt;
+        <property name="initCompile" value="false"/>&lt;!&ndash; 서비스 구동시에 less파일을 css파일로 만들지 여부 &ndash;&gt;
+        <property name="serviceManager" ref="coreframe.serviceManager"/>
+    </bean>-->
+</beans>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<site-menu name="coreFRAME WebFramework" last-id="000055">
+
+    <topmenu id="coreframe_sample" name="coreFRAME example site" _authorizer="coreview.defaultWebAuthorizer">
+        <url>/coreframe</url>
+        <layout>no-apply</layout>
+        <child>
+            <menu id="sample_case1" name="CASE 1">
+                <url>/coreframe/sample-application/case1/index.jsp</url>
+                <child>
+                    <menu id="sample_case1_1" name="description">
+                        <url>/coreframe/sample-application/case1/index.jsp</url>
+                    </menu>
+                    <menu id="sample_case1_2" name="example">
+                        <url>/coreframe/sample-application/case1/list.jsp</url>
+                        <another-url>/coreframe/sample-application/case1/view.jsp</another-url>
+                        <another-url>/coreframe/sample-application/case1/update.jsp</another-url>
+                    </menu>
+                </child>
+            </menu>
+            <menu id="sample_case2" name="CASE 2">
+                <url>/coreframe/sample-application/case2/index.jsp</url>
+                <child>
+                    <menu id="sample_case2_1" name="description">
+                        <url>/coreframe/sample-application/case2/index.jsp</url>
+                    </menu>
+                    <menu id="sample_case2_2" name="example">
+                        <url>/coreframe/sample-application/case2/city.jsp</url>
+                    </menu>
+                </child>
+            </menu>
+            <menu id="sample_case3" name="CASE 3">
+                <url>/coreframe/sample-application/case3/index.jsp</url>
+                <child>
+                    <menu id="sample_case3_1" name="description">
+                        <url>/coreframe/sample-application/case3/index.jsp</url>
+                    </menu>
+                    <menu id="sample_case3_2" name="example">
+                        <url>/coreframe/sample-application/case3/city.jsp</url>
+                    </menu>
+                    <menu id="sample_case3_3" name="example-J2EE1.4">
+                        <url>/coreframe/sample-application/case3/j2ee14/city.jsp</url>
+                    </menu>
+                </child>
+            </menu>
+            <menu id="sample_case4" name="CASE 4">
+                <url>/coreframe/sample-application/case4/index.jsp</url>
+                <child>
+                    <menu id="sample_case4_1" name="description">
+                        <url>/coreframe/sample-application/case4/index.jsp</url>
+                    </menu>
+                    <menu id="sample_case4_2" name="example">
+                        <url>/city/list.do</url>
+                        <another-url>/city/view.do</another-url>
+                        <another-url>/city/preUpdate.do</another-url>
+                    </menu>
+                </child>
+            </menu>
+
+            <menu id="sample_case5" name="CASE 5">
+                <url>/coreframe/sample-application/case5/index.jsp</url>
+                <child>
+                    <menu id="sample_case5_1" name="description">
+                        <url>/coreframe/sample-application/case5/index.jsp</url>
+                    </menu>
+                    <menu id="sample_case5_2" name="example">
+                        <url>/coreframe/sample-application/case5/city.jspx</url>
+                    </menu>
+                </child>
+            </menu>
+        </child>
+        <publish>
+            <source-url/>
+            <time-gap/>
+            <min-page-size/>
+        </publish>
+    </topmenu>
+
+    <topmenu name="admin" _authorizer="coreview.defaultWebAuthorizer">
+        <child>
+            <menu name="coreFRAME" id="coreframe.admin.menu">
+                <url>/control/admin/index.cmd</url>
+            </menu>
+
+            <menu name="extension" id="coreframe.admin.extension">
+                <url>/control/bbs/index.cmd</url>
+            </menu>
+        </child>
+
+    </topmenu>
+
+    <topmenu name="builder">
+        <url>/WEB-APP/webponent/</url>
+        <layout propagation="true">builder</layout>
+        <child>
+            <menu name="input unit test">
+                <url>/WEB-APP/webponent/input/inputUnitTest.jsp</url>
+            </menu>
+            <menu name="input blank">
+                <url>/WEB-APP/webponent/input/inputBlank.jsp</url>
+            </menu>
+        </child>
+    </topmenu>
+
+    <topmenu name="coreWTS" id="coreWTS">
+        <url>/WEB-APP/wts</url>
+        <child>
+            <menu name="wts" id="wts">
+                <url>/WEB-APP/wts/main.jspx</url>
+                <layout>wts</layout>
+            </menu>
+        </child>
+    </topmenu>
+
+</site-menu>

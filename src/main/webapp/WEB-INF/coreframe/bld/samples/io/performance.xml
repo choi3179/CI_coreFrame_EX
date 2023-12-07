@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transaction name="getAll" xmlns="http://www.cyber-i.com/xml/bld"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://www.cyber-i.com/xml/bld   http://www.cyber-i.com/xml/ns/bld-5.0.xsd">
+
+    <processor-info type="tcp">
+        <property name="server.ip" value="127.0.0.1"/>
+        <property name="server.port" value="3450"/>
+        <property name="delimiter.line" value="\n"/>
+        <property name="delimiter.column" value="\t"/>
+    </processor-info>
+
+    <input>
+        <block>
+            <field name="cpu" type="string" default="metrics-single:cpu"/>
+            <field name="mem" type="string" default="memory:free"/>
+
+
+        </block>
+    </input>
+
+    <output>
+        <block name="result">
+            <field name="cpu" type="string"></field>
+            <field name="ram" type="string"></field>
+
+        </block>
+    </output>
+
+
+</transaction>

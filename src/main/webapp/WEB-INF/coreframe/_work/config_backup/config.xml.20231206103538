@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<config product="coreframe" version="5.0">
+
+	<properties>
+		<property name="domain.name"					value="http://yourdomainname.com" desc="web site domain"/>
+		<property name="target.encoding"			value="utf-8" desc="default system encoding"/>
+		<property name="example.dynamic.value" value="defaultValue"
+				  classInfo="coreframe.data.schema.defaultVal.impl.Util#size"/>
+	</properties>
+
+	<beans factoryClass="coreframe.beans.DefaultBeanFactory">
+		<configLocation>
+			./service/*.xml
+			,./service/adapters/*.xml
+			,./service/web/*.xml
+			,./service/event/*.xml
+			,./service/schedule/*.xml
+			,./service/apm/*.xml
+		</configLocation>
+	</beans>
+
+	<db type="framework" default-datasource="derbyPool" datasource-prefix="jdbc:coreframe:pool:"/>
+	<!-- <db type="jndi" default-datasource="DataSourceName" datasource-prefix="java:comp/env/jdbc"/> -->
+	<!-- for J2EE User transaction
+	<j2ee initialContext="weblogic.jndi.WLInitialContextFactory"   providerURL="t3://localhost:7001"/>
+	-->
+	<connectionPool>
+
+		<monitorDS
+				destination="coreframe:derbyPool" />
+
+		<!-- Built-in test DB -->
+		<derbyPool
+				driver="org.apache.derby.jdbc.EmbeddedDriver"
+				url="jdbc:derby:${COREFRAME_CONFIG_HOME}/_work/filedb/samples"
+				props=""
+				initialCapacity="1"
+				maxCapacity="5"
+				capacityIncrement="1"
+				testTableName=""
+				refreshMinTime="60"
+				timeout="5000"/>
+
+		<cf-system
+				driver="org.apache.derby.jdbc.EmbeddedDriver"
+				url="jdbc:derby:${COREFRAME_CONFIG_HOME}/_work/filedb/admin"
+				props=""
+				initialCapacity="1"
+				maxCapacity="10"
+				capacityIncrement="1"
+				testTableName=""
+				refreshMinTime="60"
+				timeout="5000"/>
+
+		<!--
+        <wts
+            driver="org.apache.derby.jdbc.EmbeddedDriver"
+            url="jdbc:derby:${COREFRAME_CONFIG_HOME}/../../WEB-APP/wts/WEB-INF/coreframe/_work/filedb/wts"
+            props=""
+            initialCapacity="1"
+            maxCapacity="5"
+            capacityIncrement="1"
+            testTableName=""
+            refreshMinTime="60"
+            timeout="5000"/>
+            -->
+	</connectionPool>
+
+	<logger
+			serverId="W1"
+			_printSystemProperty="property.serverName"
+			autoflush="true"
+			dateFormat="yy/MM/dd HH:mm:ss.SSS"
+			logPreservationDay="30"
+			dir="./log"
+			isAsync="false"
+			consoleOutput="true">
+
+		<sys trace="true"/>
+		<err trace="true" error-trace="true"/>
+		<warn 	trace="true"	error-trace="true" />
+		<info trace="true" consoleOutput="true"/>
+		<debug trace="true" consoleOutput="true"/>
+
+		<user trace="false" consoleOutput="false" dir="./log/user" isAsync="true"/>
+		<sql trace="false" consoleOutput="false" dir="./log/sql" isAsync="true"/>
+		<packet trace="false" consoleOutput="false" dir="./log/packet" isAsync="true"/>
+		<monitor trace="false" consoleOutput="false" dir="./log/mon" isAsync="true"/>
+
+		<logserver enable="false" ip="localhost" logIds="monitor" port="9001" protocol="UDP" refresh="5"/>
+	</logger>
+
+	<framework-event>
+		<!-- unit : mili second -->
+		<bldProcessDelay time-cutline="10000"/>
+	</framework-event>
+
+	<resource>
+		<corelogic execute-server="local" max-concurrent-request="500" vmEncoding="" dbEncoding="">
+			<ioSchema
+					dir="${COREFRAME_CONFIG_HOME}/bld"
+					initLoadBldMode="normal"
+					initLoadBldMode_Sample="normal,compile,all"
+					checkIntervalTime="1000"
+					compiler="javac -encoding utf-8 "
+					lib_dir="${WEB_DOCUMENT_ROOT}/WEB-INF/lib"
+					genDir="${COREFRAME_CONFIG_HOME}/_work/gen_java"
+					defaultVal-importPackageNames=""
+			/>
+
+			<webservice baseTargetNamespace="${domain.name}"/>
+			<dbConnectionList names="derbyPool,cf-system"/>
+		</corelogic>
+	</resource>
+</config>
