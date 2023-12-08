@@ -17,7 +17,6 @@
 
 	public void list(ViewMeta view) throws IOException {
 
-
 		DataSet input = view.getInputDataSet();
 
 		DataSet output = executeBL("samples/database/listCities", input);
