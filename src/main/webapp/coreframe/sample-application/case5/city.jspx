@@ -19,6 +19,7 @@
 
 		DataSet input = view.getInputDataSet();
 
+
 		DataSet output = executeBL("samples/database/listCities", input);
 
 		view.setAttribute("output", output.toList());
