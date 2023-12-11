@@ -1,4 +1,4 @@
-# coreframe_wts
+# coreframe5.5 wts edition
 
 JDK - 1.5 이상 설정 (1.8 이상 17 이하 권장)
 tomcat (사용시) - tomcat 8 이상 tomcat 9 이하
