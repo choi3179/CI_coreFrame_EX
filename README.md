@@ -11,6 +11,7 @@ SDK 설정 - JAVA 1.5 이상 설정 (1.8 이상 17 이하 권장)
 
 ### 2.Modules
 프로젝트 root 폴더 제외 모두 삭제
+
 프로젝트 root 폴더에 Web 모듈 추가
 
 #### 추가한 Web 모듈 Deployment Descriptors 수정
