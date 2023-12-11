@@ -18,6 +18,7 @@ Path: <project 경로>/src/main/webapp/WEB-INF/web.xml
 
 #### 추가한 Web 모듈 Web Resource Directories 수정
 Web Resource Directory: <projcet 경로>/src/main/webapp
+
 Path Relative to Deployment Root: /
 
 ### 3.Artifacts
