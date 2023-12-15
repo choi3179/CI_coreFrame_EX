@@ -5,6 +5,7 @@
  <jsp:directive.page import="java.io.*" />
  <jsp:directive.page import="coreframe.http.*,coreframe.data.*" />
 	<jsp:directive.page import="coreframe.log.Logger"/>
+	<jsp:directive.page import="test.JavaFileTest"/>
 	<c:set scope="request" var="viewpage.prefix" value="/coreframe/sample-application/case5/view/" />
  <c:set scope="request" var="viewpage.postfix" value=".jsp" />
  <jsp:declaration><![CDATA[//
@@ -20,7 +21,8 @@
 		DataSet input = view.getInputDataSet();
 
 		DataSet output = executeBL("samples/database/listCities", input);
-
+		JavaFileTest test = new JavaFileTest();
+		Logger.debug.println(test.test());
 		view.setAttribute("output", output.toList());
 		// request.setAttribute 와 동일
 		view.setViewName("list");
