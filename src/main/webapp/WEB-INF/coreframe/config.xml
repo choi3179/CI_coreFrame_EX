@@ -20,6 +20,7 @@
 	</beans>
 
 	<db type="framework" default-datasource="derbyPool" datasource-prefix="jdbc:coreframe:pool:"/>
+	<db type="framework" default-datasource="MysqlPool" datasource-prefix="jdbc:coreframe:pool:"/>
 	<!-- <db type="jndi" default-datasource="DataSourceName" datasource-prefix="java:comp/env/jdbc"/> -->
 	<!-- for J2EE User transaction
 	<j2ee initialContext="weblogic.jndi.WLInitialContextFactory"   providerURL="t3://localhost:7001"/>
@@ -51,7 +52,16 @@
 				testTableName=""
 				refreshMinTime="60"
 				timeout="5000"/>
-
+		<Mysql
+				driver="com.mysql.cj.jdbc.Driver"
+				url="jdbc:mysql://202.136.113.60:3306/wts_database"
+				props="user=wts_ci;password=cyber0911!"
+				initialCapacity="1"
+				maxCapacity="5"
+				capacityIncrement="1"
+				testTableName=""
+				refreshMinTime="60"
+				timeout="5000"/>
 		<!--
         <wts
             driver="org.apache.derby.jdbc.EmbeddedDriver"
