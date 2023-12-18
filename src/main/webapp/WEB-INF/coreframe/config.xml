@@ -19,7 +19,7 @@
 		</configLocation>
 	</beans>
 
-	<db type="framework" default-datasource="derbyPool" datasource-prefix="jdbc:coreframe:pool:"/>
+	<!--<db type="framework" default-datasource="derbyPool" datasource-prefix="jdbc:coreframe:pool:"/>-->
 	<!--<db type="framework" default-datasource="MysqlPool" datasource-prefix="jdbc:coreframe:pool:"/>-->
 	<!-- <db type="jndi" default-datasource="DataSourceName" datasource-prefix="java:comp/env/jdbc"/> -->
 	<!-- for J2EE User transaction
@@ -27,9 +27,9 @@
 	-->
 	<connectionPool>
 
-		<monitorDS
-				destination="coreframe:derbyPool" />
-
+		<!--	<monitorDS
+                    destination="coreframe:derbyPool" />
+    -->
 		<!-- Built-in test DB -->
 		<derbyPool
 				driver="org.apache.derby.jdbc.EmbeddedDriver"
