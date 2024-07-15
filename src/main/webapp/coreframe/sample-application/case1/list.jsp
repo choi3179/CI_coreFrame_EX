@@ -7,28 +7,37 @@
 
 <%
 	InteractionBean interact = new InteractionBean();
-	int startPage = 1;
-	int endPage = 10;
-	int totalPages = 2;
+
+	int pageSize 	= 5; 	// 한 페이지에 나올 데이터 갯수
+	int pageBlock 	= 5;	// 한 블록에 보일 페이지 갯수
+
+	int cPage 		= Integer.parseInt(request.getParameter("page"));	// 현재 페이지
 
 	DataSet input = interact.getDataSet(request);
 	DataSet output = new DataSet();
 
-	Enumeration params = request.getParameterNames();
-	while(params.hasMoreElements()) {
-		String name = (String) params.nextElement();
-		System.out.println("[CHOI] list.jsp >> " + name + " : " + request.getParameter(name) + "     ");
-	}
-
-	if ("delete".equals(request.getParameter("cmd")))
-		interact.execute("samples/database/deleteCity", input);
-	interact.execute("samples/database/listCities", input, output);
-	//totalPages = output.getCount("id") / 5
-
 	DataSet output2 = new DataSet();
 	interact.execute("samples/database/countCity", input, output2);
 
-	System.out.println("[CHOI] list.jsp(my BLD DB) >> " + output2.getInt("cnt"));
+	System.out.println("[CHOI] list.jsp(my BLD DB) >> " + output2.getInt("cnt") + " && " + cPage);
+	int totalCount = output2.getInt("cnt");		// 총 데이터 개수
+	int totalPage = (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);		// 전체 페이지 개수
+
+	int startPageNum = ((cPage-1) / pageBlock) * pageBlock + 1;		// 현재 보고 있는 페이지의 블록의 시작 페이지 번호
+	int endPageNum = ((cPage-1) / pageBlock) * pageBlock + pageBlock;
+	if(endPageNum > totalPage)
+		endPageNum = totalPage;
+
+	/*Enumeration params = request.getParameterNames();
+	while(params.hasMoreElements()) {
+		String name = (String) params.nextElement();
+		System.out.println("[CHOI] list.jsp >> " + name + " : " + request.getParameter(name) + "     ");
+	}*/
+	
+	if ("delete".equals(request.getParameter("cmd")))
+		interact.execute("samples/database/deleteCity", input);
+	interact.execute("samples/database/listCities", input, output);
+
 %>
 
 <html>
@@ -69,7 +78,7 @@
 	</thead>
 	<tbody>
 		<%
-			for (int i = 0, n = output.getCount("id"); i < 5; i++) {
+			for (int i = 0, n = output.getCount("id"); i < pageSize; i++) {
 				String id = output.getText("id", i);
 		%>
 		<tr>
@@ -119,29 +128,27 @@
 
 <nav aria-label="Page navigation example">
 	<ul class="pagination justify-content-center">
-		<% if (startPage == 1) {%>
-		<li class="page-item disabled"><a class="page-link" href="#"
-										  tabindex="-1" aria-disabled="true">Previous</a></li>
-		<% } else {%>
-		<li class="page-item"><a class="page-link"
-								 href="list.jsp?page=<%=startPage - 1%>" tabindex="-1"
-								 aria-disabled="true">Previous</a></li>
-		<% }%>
-		<% for (int i = startPage; i <= endPage; i++) {%>
+		<%
+			// Previous 버튼은 블록의 첫 번째 번호가 블록 개수가 클 경우에만 보임
+			if ( startPageNum > pageBlock ) {
+		%>
+		<li class="page-item">
+			<a class="page-link" href="./list.jsp?page=<%=startPageNum - 1%>">Previous</a>
+		</li>
+		<% } %>
+
+		<% for (int i = startPageNum; i <= endPageNum; i++) {%>
 		<li class="page-item">
 			<a class="page-link" href="list.jsp?page=<%=i %>"><%=i%></a></li>
 		<% }%>
 		<%
-			// 마지막 페이지 숫자와 startPage에서 pageLength 더해준 값이 일치할 때
-			// (즉 마지막 페이지 블럭일 때)
-			if (totalPages == endPage) {
+			// 전체 페이지 개수가 현재 블록의 마지막 페이지 번호보다는 클 경우 Next 버튼이 보임
+			if (totalPage > endPageNum) {
 		%>
-		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
-		<% } else {%>
 		<li class="page-item">
-			<a class="page-link" href="./list.jsp?page=<%=endPage + 1%>">Next</a>
+			<a class="page-link" href="./list.jsp?page=<%=endPageNum + 1%>">Next</a>
 		</li>
-		<% }%>
+		<% } %>
 	</ul>
 </nav>
 
