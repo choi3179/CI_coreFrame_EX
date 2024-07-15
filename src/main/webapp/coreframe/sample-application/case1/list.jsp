@@ -8,7 +8,7 @@
 <%
 	InteractionBean interact = new InteractionBean();
 
-	int pageSize 	= 5; 	// 한 페이지에 나올 데이터 갯수
+	int pageSize 	= 10; 	// 한 페이지에 나올 데이터 갯수
 	int pageBlock 	= 5;	// 한 블록에 보일 페이지 갯수
 
 	int cPage 		= Integer.parseInt(request.getParameter("page"));	// 현재 페이지
@@ -19,7 +19,8 @@
 	DataSet output2 = new DataSet();
 	interact.execute("samples/database/countCity", input, output2);
 
-	System.out.println("[CHOI] list.jsp(my BLD DB) >> " + output2.getInt("cnt") + " && " + cPage);
+	//System.out.println("[CHOI] list.jsp(my BLD DB) >> " + output2.getInt("cnt") + " && " + cPage);
+
 	int totalCount = output2.getInt("cnt");		// 총 데이터 개수
 	int totalPage = (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);		// 전체 페이지 개수
 
@@ -33,9 +34,14 @@
 		String name = (String) params.nextElement();
 		System.out.println("[CHOI] list.jsp >> " + name + " : " + request.getParameter(name) + "     ");
 	}*/
-	
+
 	if ("delete".equals(request.getParameter("cmd")))
 		interact.execute("samples/database/deleteCity", input);
+
+	int start = pageSize * (cPage -1) + 1;
+	int end = pageSize * (cPage -1) + (cPage == totalPage ? totalCount % pageSize : pageSize);
+	input.put("start", start);
+	input.put("end", end);
 	interact.execute("samples/database/listCities", input, output);
 
 %>
@@ -78,7 +84,8 @@
 	</thead>
 	<tbody>
 		<%
-			for (int i = 0, n = output.getCount("id"); i < pageSize; i++) {
+			int n = (cPage == totalPage) ? (totalCount % pageSize) : pageSize;
+			for (int i = 0; i < n; i++) {
 				String id = output.getText("id", i);
 		%>
 		<tr>
