@@ -3,12 +3,19 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="coreframe.data.*"%>
+<%@ page import="java.util.Enumeration" %>
 
 <%
 	InteractionBean interact = new InteractionBean();
 
 	DataSet input = interact.getDataSet(request);
 	DataSet output = new DataSet();
+
+	Enumeration params = request.getParameterNames();
+	while(params.hasMoreElements()) {
+		String name = (String) params.nextElement();
+		System.out.println("[CHOI] update.jsp >> " + name + " : " + request.getParameter(name) + "     ");
+	}
 
 	if ("update".equals(request.getParameter("cmd"))) {
 		interact.execute("samples/database/updateCity", input);
@@ -44,7 +51,7 @@
 <span id="msg"></span>
 
 <span class="button"><input type="button" value="목록보기" onclick="list();"/></span> 
-<span class="button"><input type="button" value="저장" onclick="save();"/></span>
+<span class="button"><input type="submit" value="저장" /></span>
 </fieldset>
 
 

@@ -3,16 +3,32 @@
 	pageEncoding="UTF-8"%>
 
 <%@ page import="coreframe.data.*"%>
+<%@ page import="java.util.Enumeration" %>
 
 <%
 	InteractionBean interact = new InteractionBean();
+	int startPage = 1;
+	int endPage = 10;
+	int totalPages = 2;
 
 	DataSet input = interact.getDataSet(request);
 	DataSet output = new DataSet();
 
+	Enumeration params = request.getParameterNames();
+	while(params.hasMoreElements()) {
+		String name = (String) params.nextElement();
+		System.out.println("[CHOI] list.jsp >> " + name + " : " + request.getParameter(name) + "     ");
+	}
+
 	if ("delete".equals(request.getParameter("cmd")))
 		interact.execute("samples/database/deleteCity", input);
 	interact.execute("samples/database/listCities", input, output);
+	//totalPages = output.getCount("id") / 5
+
+	DataSet output2 = new DataSet();
+	interact.execute("samples/database/countCity", input, output2);
+
+	System.out.println("[CHOI] list.jsp(my BLD DB) >> " + output2.getInt("cnt"));
 %>
 
 <html>
@@ -53,7 +69,7 @@
 	</thead>
 	<tbody>
 		<%
-			for (int i = 0, n = output.getCount("id"); i < 10; i++) {
+			for (int i = 0, n = output.getCount("id"); i < 5; i++) {
 				String id = output.getText("id", i);
 		%>
 		<tr>
@@ -100,6 +116,35 @@
 </div>
 
 </form>
+
+<nav aria-label="Page navigation example">
+	<ul class="pagination justify-content-center">
+		<% if (startPage == 1) {%>
+		<li class="page-item disabled"><a class="page-link" href="#"
+										  tabindex="-1" aria-disabled="true">Previous</a></li>
+		<% } else {%>
+		<li class="page-item"><a class="page-link"
+								 href="list.jsp?page=<%=startPage - 1%>" tabindex="-1"
+								 aria-disabled="true">Previous</a></li>
+		<% }%>
+		<% for (int i = startPage; i <= endPage; i++) {%>
+		<li class="page-item">
+			<a class="page-link" href="list.jsp?page=<%=i %>"><%=i%></a></li>
+		<% }%>
+		<%
+			// 마지막 페이지 숫자와 startPage에서 pageLength 더해준 값이 일치할 때
+			// (즉 마지막 페이지 블럭일 때)
+			if (totalPages == endPage) {
+		%>
+		<li class="page-item disabled"><a class="page-link" href="#">Next</a></li>
+		<% } else {%>
+		<li class="page-item">
+			<a class="page-link" href="./list.jsp?page=<%=endPage + 1%>">Next</a>
+		</li>
+		<% }%>
+	</ul>
+</nav>
+
 <script type="text/javascript">
 	//<![CDATA[
 	function view(id) {

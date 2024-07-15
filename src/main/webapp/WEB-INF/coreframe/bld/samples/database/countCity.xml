@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<transaction xmlns="http://www.cyber-i.com/xml/bld" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cyber-i.com/xml/bld
+       http://www.cyber-i.com/xml/ns/bld-5.0.xsd">
+
+    <info>
+        <name>전체 도시 조회</name>
+        <description/>
+        <author/>
+        <version>0.1</version>
+        <http-access>true</http-access>
+        <status>developing</status>
+        <effective-date/>
+    </info>
+    <processor-info type="dbms" datasource="derbyPool">
+        <transaction-type/>
+
+        <sql id="query1">
+            <query type="">SELECT COUNT(*) FROM CITIES</query>
+            <mapping>
+                <setProperty/>
+                <getProperty/>
+                <!--<getProperty>cnt</getProperty>-->
+            </mapping>
+        </sql>
+    </processor-info>
+    <input>
+        <block>
+            <field name="name" type="string"/>
+        </block>
+    </input>
+    <output>
+        <block id="" name="cnt">
+            <field name="cnt" type="int"/>
+        </block>
+    </output>
+    <test>
+        <case name="case1:">
+            <test-input>
+                <field name="cnt" value="10" type="int"/>
+            </test-input>
+        </case>
+        <case name="case2:">
+            <test-input>
+                <field name="cnt" value="20" type="int"/>
+            </test-input>
+        </case>
+    </test>
+</transaction>

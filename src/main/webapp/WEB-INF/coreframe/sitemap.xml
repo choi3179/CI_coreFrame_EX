@@ -14,6 +14,7 @@
                     </menu>
                     <menu id="sample_case1_2" name="example">
                         <url>/coreframe/sample-application/case1/list.jsp</url>
+                        <param name="page">1</param>
                         <another-url>/coreframe/sample-application/case1/view.jsp</another-url>
                         <another-url>/coreframe/sample-application/case1/update.jsp</another-url>
                     </menu>
