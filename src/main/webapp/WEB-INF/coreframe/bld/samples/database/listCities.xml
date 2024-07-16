@@ -25,6 +25,8 @@
   <input>
     <block>
       <field name="name" type="string"/>
+      <field name="start" type="int"/>
+      <field name="end" type="int"/>
     </block>
   </input>
   <output>

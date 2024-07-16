@@ -112,7 +112,7 @@
 					</ul>
 				</m:when>
 				<m:when test="{menu.selected}==false">
-					<li><a href='<m:param attr="url"/>'><m:param attr="name" /></a><img src="${TEMPLET_DIR}/img/bullet_02_off.png"/></li>
+					<li><a href='<m:param attr="url"/>?page=1'><m:param attr="name" /></a><img src="${TEMPLET_DIR}/img/bullet_02_off.png"/></li>
 				</m:when>
 			</m:list>
 		</ul>
@@ -124,7 +124,7 @@
 	</div>
 
 
-<div id="content">
+	<div id="content">
 <div class="content_margin">
 <div class="title">
 	<div class="pageTitle">
