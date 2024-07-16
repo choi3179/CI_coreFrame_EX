@@ -15,8 +15,7 @@
     <transaction-type/>
     
     <sql id="query1">
-      <!--<query type="">SELECT CITY_ID, CITY_NAME, COUNTRY, AIRPORT, LANGUAGE, COUNTRY_ISO_CODE FROM CITIES where CITY_NAME like '${name}%'</query>-->
-      <query type="">SELECT CITY_ID, CITY_NAME, COUNTRY, AIRPORT, LANGUAGE, COUNTRY_ISO_CODE FROM CITIES WHERE CITY_ID between :start and :end </query>
+      <query type="">SELECT CITY_ID, CITY_NAME, COUNTRY, AIRPORT, LANGUAGE, COUNTRY_ISO_CODE FROM CITIES where CITY_NAME like '${name}%'</query>
       <mapping>
         <setProperty/>
         <getProperty>id,name,country,airport,language,countryIsoCode</getProperty>

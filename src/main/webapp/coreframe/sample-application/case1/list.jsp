@@ -8,41 +8,51 @@
 <%
 	InteractionBean interact = new InteractionBean();
 
-	int pageSize 	= 10; 	// 한 페이지에 나올 데이터 갯수
-	int pageBlock 	= 5;	// 한 블록에 보일 페이지 갯수
-
-	int cPage 		= Integer.parseInt(request.getParameter("page"));	// 현재 페이지
-
 	DataSet input = interact.getDataSet(request);
 	DataSet output = new DataSet();
 
-	DataSet output2 = new DataSet();
-	interact.execute("samples/database/countCity", input, output2);
-
-	//System.out.println("[CHOI] list.jsp(my BLD DB) >> " + output2.getInt("cnt") + " && " + cPage);
-
-	int totalCount = output2.getInt("cnt");		// 총 데이터 개수
-	int totalPage = (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);		// 전체 페이지 개수
-
-	int startPageNum = ((cPage-1) / pageBlock) * pageBlock + 1;		// 현재 보고 있는 페이지의 블록의 시작 페이지 번호
-	int endPageNum = ((cPage-1) / pageBlock) * pageBlock + pageBlock;
-	if(endPageNum > totalPage)
-		endPageNum = totalPage;
-
-	/*Enumeration params = request.getParameterNames();
+	Enumeration params = request.getParameterNames();
 	while(params.hasMoreElements()) {
 		String name = (String) params.nextElement();
 		System.out.println("[CHOI] list.jsp >> " + name + " : " + request.getParameter(name) + "     ");
-	}*/
+	}
+
+	int pageSize 	= 10; 	// 한 페이지에 나올 데이터 갯수
+	int pageBlock 	= 5;	// 한 블록에 보일 페이지 갯수
+	int cPage 		= 1;	// 현재 페이지
+
+	int totalCount = 0;		// 총 데이터 개수
+	int totalPage = 0;		// 전체 페이지 개수
+
+	int startPageNum = 1;		// 현재 보고 있는 페이지의 블록의 시작 페이지 번호
+	int endPageNum = 1;
 
 	if ("delete".equals(request.getParameter("cmd")))
 		interact.execute("samples/database/deleteCity", input);
+	else if(request.getParameter("page") != null){
 
-	int start = pageSize * (cPage -1) + 1;
-	int end = pageSize * (cPage -1) + (cPage == totalPage ? totalCount % pageSize : pageSize);
-	input.put("start", start);
-	input.put("end", end);
-	interact.execute("samples/database/listCities", input, output);
+		cPage 		= Integer.parseInt(request.getParameter("page"));	// 현재 페이지
+
+		DataSet output2 = new DataSet();
+		interact.execute("samples/database/countCity", input, output2);
+
+		totalCount = output2.getInt("cnt");		// 총 데이터 개수
+		System.out.println("[CHOI] list.jsp (totalCount) >> " + totalCount + "     ");
+		totalPage = (totalCount / pageSize) + (totalCount % pageSize == 0 ? 0 : 1);		// 전체 페이지 개수
+
+		startPageNum = ((cPage-1) / pageBlock) * pageBlock + 1;		// 현재 보고 있는 페이지의 블록의 시작 페이지 번호
+		endPageNum = ((cPage-1) / pageBlock) * pageBlock + pageBlock;
+
+		if(endPageNum > totalPage)
+			endPageNum = totalPage;
+
+		int start = pageSize * (cPage -1) + 1;
+		int end = pageSize * (cPage -1) + (cPage == totalPage ? totalCount % pageSize : pageSize);
+		System.out.println("[CHOI] list.jsp (start ~ end) >> " + start + " ~ " + end + "     ");
+		input.put("start", start);
+		input.put("end", end);
+		interact.execute("samples/database/blockCities", input, output);
+	}
 
 %>
 
